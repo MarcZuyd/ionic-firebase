@@ -1,0 +1,82 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        Login
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding>
+
+
+  <form [formGroup]="loginForm" autocomplete="off">
+
+
+    <ion-card id="loginCard" color="dark">
+
+      <ion-card-header>
+        <ion-card-title>Login</ion-card-title>
+ 
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-item color="dark">
+          <ion-label position="floating">Email:</ion-label>
+          <ion-input formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item lines="none" *ngIf="loginForm.get('email').touched" color="warning">
+          <ng-container *ngFor="let validation of validationMessages.email">
+            <div class="error-message" *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </ion-item>
+
+        <ion-item color="dark">
+          <ion-label position="floating">Password:</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item lines="none" *ngIf="loginForm.get('password').touched" color="warning">
+          <ng-container *ngFor="let validation of validationMessages.password">
+            <div *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </ion-item>
+
+        <ion-button [disabled]="loginForm.invalid" id="login" expand="block">Login</ion-button>
+        <ion-toolbar color="dark">
+          <ion-buttons slot="end">
+            <ion-button size="large" color="primary" expand="full">Forgot password?</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+
+      </ion-card-content>
+    </ion-card>
+
+  </form>
+  
+  <ion-toolbar color="secondary">
+    <ion-row>
+      <ion-col size="2" size-md><h4>Valid</h4></ion-col>
+      <ion-col size="2" size-md><h4>Touched</h4></ion-col>
+      <ion-col size="2" size-md><h4>Pristine</h4></ion-col>
+      <ion-col size="2" size-md><h4>Dirty</h4></ion-col>
+      <ion-col size="2" size-md><h4>Errors</h4></ion-col>
+      <ion-col size="2" size-md><h4>Status</h4></ion-col>    
+    </ion-row>
+  
+    <ion-row>
+      <ion-col size="2" size-md>{{ loginForm.valid }}</ion-col>
+      <ion-col size="2" size-md>{{ loginForm.touched }}</ion-col>
+      <ion-col size="2" size-md>{{ loginForm.pristine }}</ion-col>
+      <ion-col size="2" size-md>{{ loginForm.dirty }}</ion-col>
+      <ion-col size="2" size-md>{{ loginForm.errors }}</ion-col>
+      <ion-col size="2" size-md>{{ loginForm.status }}</ion-col>    
+    </ion-row>
+  </ion-toolbar>
+</ion-content>
