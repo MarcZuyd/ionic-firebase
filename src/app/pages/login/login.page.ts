@@ -10,6 +10,7 @@ import { FirebaseAuthService } from '../../services/firebase-auth.service';
 })
 export class LoginPage implements OnInit {
 
+  user: firebase.User;
   loginForm: FormGroup;
   validationMessages = {
     'email': [
@@ -23,10 +24,6 @@ export class LoginPage implements OnInit {
   };
 
   constructor(private auth: FirebaseAuthService, private fb: FormBuilder) {
-
-  }
-
-  ngOnInit() {
     this.loginForm = this.fb.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -37,10 +34,28 @@ export class LoginPage implements OnInit {
         Validators.minLength(6)
       ]))
     });
-    this.loginForm.valueChanges.subscribe(console.log);
+    console.log(this.auth.firebaseAuth.auth.currentUser);
+
+  }
+
+  ngOnInit() {
+    // this.loginForm.valueChanges.subscribe(console.log);
+    console.log(this.auth.firebaseAuth.auth.currentUser);
   }
 
   login() {
-    this.auth.loginWithEmailAndPassword();
+    console.log(this.loginForm.get('email').value.toString(), this.loginForm.get('password').value.toString());
+    this.auth.login(this.loginForm.get('email').value.toString(), this.loginForm.get('password').value.toString());
+    this.clearForm();
+  }
+
+  logOut() {
+    this.auth.logOut();
+  }
+
+  clearForm() {
+    this.loginForm.reset(this.loginForm.value);
+    this.loginForm.get('password').setValue('');
+    this.loginForm.get('email').setValue('');
   }
 }
